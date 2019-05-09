@@ -139,7 +139,9 @@ Hello World!
 ---
 ## Pourquoi scripter en Go ?
 
-Quel peut être l'intérêt de déployer des scripts en Go sur une machine si on peut le faire en Python par exemple ?
+Nous avons vu qu'en termes de performance et d'usage, les scripts en Go sont une solution viable.
+
+Mais quel peut être l'intérêt de déployer des scripts en Go sur une machine si on peut le faire en Python par exemple ?
 
 Dans les deux cas il faut installer le moteur sur les machines où l'on déploie les scripts :
 
@@ -148,10 +150,10 @@ Dans les deux cas il faut installer le moteur sur les machines où l'on déploie
 
 Mais dans le cas de Python, il faut créer un *virtualenv* pour chaque script ou application que l'on déploie. On y installe toutes les dépendances utilisées par l'application. À l'usage, cela s'avère tellement compliqué à mettre en œuvre que l'on préfère souvent livrer les applications Python dans des conteneurs comme Docker.
 
-Mais surtout, mais **il ne faut pas le dire à votre chef**, c'est un bon cheval de troie pour faire entrer en douceur du Go dans votre entreprise :o)
-
 ---
-## Cheval de Go
+## Cheval de Troie
+
+Les scripts en Go sont un bon moyen de faire entrer ce langage dans votre entreprise, en douceur, mais **il ne faut pas le dire à votre boss :o)**.
 
 ![](img/cheval-de-troie.png)
 
