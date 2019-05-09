@@ -1,0 +1,8 @@
+# NeON Build File (http://github.com/c4s4/neon)
+
+extends: [slides, git, changelog]
+
+properties:
+  TITLE:   "Go Scripting"
+  OPTIONS: "{ratio: '4:3'}"
+  #OPTIONS: "{ratio: '16:9'}"
