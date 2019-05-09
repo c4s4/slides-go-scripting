@@ -1,5 +1,9 @@
 # Semantic Change Log (see http://github.com/c4s4/changelog)
 
+- version: 1.0.1
+  date:    2019-05-09
+  summary: Ajout source Go
+
 - version: 1.0.0
   date:    2019-05-09
   summary: First release

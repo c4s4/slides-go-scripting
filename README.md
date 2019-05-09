@@ -151,6 +151,49 @@ Dans les deux cas il faut installer le moteur sur les machines où l'on déploie
 Mais dans le cas de Python, il faut créer un *virtualenv* pour chaque script ou application que l'on déploie. On y installe toutes les dépendances utilisées par l'application. À l'usage, cela s'avère tellement compliqué à mettre en œuvre que l'on préfère souvent livrer les applications Python dans des conteneurs comme Docker.
 
 ---
+## Exemple de mise en œuvre
+
+J'ai dû faire un script pour envoyer un message sur Slack après passage de tests d'intégrations sur notre machine de dev. Cela consiste en un appel REST sur l'API de Slack. Pour ce faire avec Python, il me faudrait (hormis l'installation de la VM Python) :
+
+- Créer un *virtualenv* pour le script
+- Y installer *requests* pour réaliser facilement les appels HTTP
+- Déployer le script
+
+Avec Go, il n'y a qu'à déployer le script. Le script en question est dans le slide suivant :
+
+---
+Le script, sans shebang, imports et constantes est le suivant :
+
+```go
+func main() {
+	if len(os.Args) != 2 {
+		fmt.Println("You must pass message on command line")
+	}
+	message, err := json.Marshal(map[string]string{"text": os.Args[1]})
+	if err != nil {
+		panic(err)
+	}
+	request, err := http.NewRequest("POST", urlDev, bytes.NewBuffer(message))
+	if err != nil {
+		panic(err)
+	}
+	request.Header.Set("Content-Type", "application/json")
+	client := &http.Client{}
+	response, err := client.Do(request)
+	if err != nil {
+		panic(err)
+	}
+	defer response.Body.Close()
+	if response.StatusCode != 200 {
+		fmt.Println("Bad status code:", string(response.Status))
+		body, _ := ioutil.ReadAll(response.Body)
+		fmt.Println("Response body:", string(body))
+		os.Exit(1)
+	}
+}
+```
+
+---
 ## Cheval de Troie
 
 Les scripts en Go sont un bon moyen de faire entrer ce langage dans votre entreprise, en douceur, mais **il ne faut pas le dire à votre boss :o)**.
