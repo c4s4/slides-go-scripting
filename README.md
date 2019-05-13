@@ -55,7 +55,7 @@ user	0m0,028s
 sys	0m0,004s
 ```
 
-C'est plus rapide, mais le temps de lancement du script Go reste raisonnable.
+C'est plus rapide en Python, mais le temps de lancement du script Go reste raisonnable. D'autre part, si les traitements sont conséquents, il est probable que Go s'en sortira mieux que Python.
 
 ---
 ## Sous le capot
@@ -75,7 +75,7 @@ $ tree /tmp/go-build527477417/
 2 directories, 4 files
 ```
 
-Ce qui veut dire que le Go compilé notre source en une centaine de millisecondes !
+À noter que ce répertoire est effacé après exécution du script, donc ce n'est pas un moyen de compiler des sources :o)
 
 Rappelons que le binaire généré est lié statiquement, ce qui veut dire que l'on peut le copier sur n'importe quelle machine, pour laquelle on peut compiler un source Go, et exécuter ce binaire sans rien installer d'autre, pas de VM ni de bibliothèque.
 
@@ -107,6 +107,8 @@ real    0m0,058s
 user    0m0,036s
 sys     0m0,012s
 ```
+
+Nous voyons que le compilateur Go est très rapide.
 
 ---
 ## Cerise sur le gâteau
@@ -150,6 +152,20 @@ Dans les deux cas il faut installer le moteur sur les machines où l'on déploie
 
 Mais dans le cas de Python, il faut créer un *virtualenv* pour chaque script ou application que l'on déploie. On y installe toutes les dépendances utilisées par l'application. À l'usage, cela s'avère tellement compliqué à mettre en œuvre que l'on préfère souvent livrer les applications Python dans des conteneurs comme Docker.
 
+En termes de **vitesse de développement**, le Go me semble comparable au Python, **mais Python dispose de beaucoup plus de bibliothèques**.
+
+---
+## Pourquoi ne pas compiler ses scripts ?
+
+On peut aussi légitimement se demander pourquoi ne pas compiler ces scripts. Les avantages des scripts par rapport à la mise en œuvre de binaires sont les suivants :
+
+- Pas de processus de build. On peut donc déployer des scripts par simple clonage de repositories Git.
+- Les scripts tournent sur toutes les plateformes supportées. Il n'est donc pas nécessaire de faire de la *cross compilation* (qui est par ailleurs assez simple à mettre en œuvre).
+- La modification de ces scripts est plus souple. On peut les modifier directement sur le serveur.
+- On peut développer et tester ces scripts directement sur le serveur. Mais je ne le recommande pas :o)
+
+En pratique, pour profiter des avantages des scripts Go, on les installera sur les serveurs sous forme d'un clone d'un repository Git (sur la branche *master* probablement). Pour mettre à jour, un simple `git pull` suffira. Ceci peut être automatisé dans un cron pour avoir des scripts toujours à jour.
+
 ---
 ## Exemple de mise en œuvre
 
@@ -159,10 +175,11 @@ J'ai dû faire un script pour envoyer un message sur Slack après passage de tes
 - Y installer *requests* pour réaliser facilement les appels HTTP
 - Déployer le script
 
-Avec Go, il n'y a qu'à déployer le script. Le script en question est dans le slide suivant :
+Avec Go, il n'y a qu'à déployer le script. En pratique, le script a été déployé sous forme d'un clone du repository Git sur la branche *master*, mis à jour manuellement.
+
+Le script en question est le suivant (sans shebang, imports et constantes):
 
 ---
-Le script, sans shebang, imports et constantes est le suivant :
 
 ```go
 func main() {
@@ -196,7 +213,7 @@ func main() {
 ---
 ## Cheval de Troie
 
-Les scripts en Go sont un bon moyen de faire entrer ce langage dans votre entreprise, en douceur, mais **il ne faut pas le dire à votre boss :o)**.
+Les scripts sont un bon moyen de faire entrer du Go en douceur dans votre entreprise.
 
 ![](img/cheval-de-troie.png)
 
