@@ -1,8 +1,49 @@
 # NeON Build File (http://github.com/c4s4/neon)
 
-extends: [slides, git, changelog]
+extends: [slides, archive, git, changelog]
+default: [test, clean, publish]
 
 properties:
   TITLE:   "Go Scripting"
   OPTIONS: "{ratio: '4:3'}"
   #OPTIONS: "{ratio: '16:9'}"
+  SRC_DIR: "src"
+  ARC_FILES:
+  - files: ['README.md', 'LICENSE.txt']
+  - {files: '*', dir: =SRC_DIR}
+
+targets:
+
+  test:
+    doc: Run integration tests
+    steps:
+    - print: 'Running hello world'
+      color: yellow
+    - time:
+      - $: ['go', 'run', '={SRC_DIR}/hello.go']
+    - print: 'Running hello world in Python'
+      color: yellow
+    - time:
+      - $: ['python', '={SRC_DIR}/hello.py']
+    - print: 'Running hello world multi files'
+      color: yellow
+    - try:
+      - $: ['go', 'run', '={SRC_DIR}/hello2.go', '={SRC_DIR}/hello3.go']
+      - throw: "Go run on multi file succeeded while it shouldn't"
+      catch:
+    - print: 'Running hello world in Python'
+      color: yellow
+    - time:
+      - $: ['python', '={SRC_DIR}/hello.py']
+    - print: 'Building hello world'
+      color: yellow
+    - time:
+      - $: ['go', 'build', '-o', '={BUILD_DIR}/hello', '={SRC_DIR}/hello.go']
+    - print: 'Building hello world in Java'
+      color: yellow
+    - time:
+      - $: ['javac', '-d', =BUILD_DIR, '={SRC_DIR}/HelloWorld.java']
+    - print: 'Building hello world in C'
+      color: yellow
+    - time:
+      - $: ['gcc', '-o', '={BUILD_DIR}/hello.out', '={SRC_DIR}/hello.c']
