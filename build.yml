@@ -1,6 +1,6 @@
 # NeON Build File (http://github.com/c4s4/neon)
 
-extends: [slides, archive, git, changelog]
+extends: [slides, git-master]
 default: [test, clean, publish]
 
 properties:
