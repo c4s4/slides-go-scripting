@@ -1,16 +1,19 @@
-# NeON Build File (http://github.com/c4s4/neon)
+# NeON build file (http://github.com/c4s4/neon)
 
-extends: [slides, git-master]
-default: [test, clean, publish]
+extends: slides
+expose:  [slides, publish, release, TITLE, OPTIONS]
+configuration: '~/.neon/github.yml'
+# GITHUB_TOKEN: 'abcdefghijklmnopqrstuvwxyz0123456789'
 
 properties:
-  TITLE:   "Go Scripting"
-  OPTIONS: "{ratio: '4:3'}"
-  #OPTIONS: "{ratio: '16:9'}"
-  SRC_DIR: "src"
+  TITLE:    'Go Scripting'
+  #OPTIONS:  '{ratio: "4:3"}'
+  OPTIONS:  '{ratio: "16:9"}'
+  ARC_TYPE:  zip
   ARC_FILES:
-  - files: ['README.md', 'LICENSE.txt']
-  - {files: '*', dir: =SRC_DIR}
+  - files:   '**/*'
+    dir:     =BUILD_DIR
+  - files:   'src/*'
 
 targets:
 
