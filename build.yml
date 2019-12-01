@@ -57,6 +57,4 @@ targets:
     depends: [clean, test, last-tags, version, release-title, change-list]
     steps:
     - super:
-    - call: publish
-    - call: upload
 
