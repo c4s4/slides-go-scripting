@@ -1,14 +1,15 @@
 # NeON build file (http://github.com/c4s4/neon)
 
 extends: slides
-expose:  [slides, publish, release, TITLE, OPTIONS]
+expose:  [test, slides, publish, release, TITLE, OPTIONS]
 configuration: '~/.neon/github.yml'
 # GITHUB_TOKEN: 'abcdefghijklmnopqrstuvwxyz0123456789'
 
 properties:
-  TITLE:    'Go Scripting'
-  #OPTIONS:  '{ratio: "4:3"}'
-  OPTIONS:  '{ratio: "16:9"}'
+  TITLE:     'Go Scripting'
+  #OPTIONS:   '{ratio: "4:3"}'
+  OPTIONS:   '{ratio: "16:9"}'
+  SRC_DIR:   'src'
   ARC_TYPE:  zip
   ARC_FILES:
   - files:   '**/*'
@@ -50,3 +51,12 @@ targets:
       color: yellow
     - time:
       - $: ['gcc', '-o', '={BUILD_DIR}/hello.out', '={SRC_DIR}/hello.c']
+
+  release:
+    doc: Perform a release
+    depends: [clean, test, last-tags, version, release-title, change-list]
+    steps:
+    - super:
+    - call: publish
+    - call: upload
+
